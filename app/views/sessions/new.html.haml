@@ -1,0 +1,43 @@
+%section.sign_in.container
+  .row
+    .col-sm-10.col-sm-offset-1
+      = form_tag sign_in_path, class: 'sign-in' do
+        %header
+          %h1 Sign in
+        %fieldset
+          .form-group
+            = label_tag :email, 'Email Address'
+            .row
+              .col-sm-4
+                = email_field_tag :email, params[:email], class: 'form-control'
+          .form-group
+            = label_tag :password, 'Password'
+            .row
+              .col-sm-4
+                = password_field_tag :password, nil, class: 'form-control'
+        %fieldset.form-group.action
+          = submit_tag 'Sign in', class: 'btn btn-default'
+
+  -# = form_tag(search_videos_path, method: 'get', class: 'col-md-5 navbar-form') do
+  -#   = text_field_tag(:q, nil, class: 'form-control', placeholder: 'Search for videos here')
+  -#   = submit_tag('Search', class: 'btn btn-default', name: nil)
+
+-# %section.sign_in.container
+-#   .row
+-#     .col-sm-10.col-sm-offset-1
+-#       %form.sign_in
+-#         %header
+-#           %h1 Sign in
+-#         %fieldset
+-#           .form-group
+-#             %label Email Address
+-#             .row
+-#               .col-sm-4
+-#                 %input.form-control(type="email")
+-#           .form-group
+-#             %label Password
+-#             .row
+-#               .col-sm-4
+-#                 %input.form-control(type="password")
+-#         %fieldset.form-group.action
+-#           %input(type="submit" value="Sign in" class="btn btn-default")

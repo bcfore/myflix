@@ -1,0 +1,88 @@
+%section.register.container
+  .row
+    .col-sm-10.col-sm-offset-1
+      = bootstrap_form_for @user, layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-6" do |f|
+        %header
+          %h1 Register
+        %fieldset
+          = f.email_field :email, label: "Email Address"
+          = f.password_field :password
+          = f.text_field :full_name, label: "Full Name"
+        %fieldset.actions.control-group.col-sm-offset-3
+          .controls
+            = f.submit 'Sign Up'
+
+-# BCF version (without using 'bootstrap_form_for'):
+
+-# %section.register.container
+-#   .row
+-#     .col-sm-10.col-sm-offset-1
+-#       = form_for @user, html: {class: 'form-horizontal'} do |f|
+-#         %header
+-#           %h1 Register
+-#         %fieldset
+-#           .form-group{:class => !@user.errors[:email].blank? && 'has-error'}
+-#             = f.label :email, 'Email Address', class: 'control-label col-sm-3'
+-#             .col-sm-6
+-#               =f.email_field :email, class: 'form-control'
+-#             - unless @user.errors[:email].blank?
+-#               .col-sm-3
+-#                 .help-block= @user.errors[:email].first
+-#           .form-group{:class => !@user.errors[:password].blank? && 'has-error'}
+-#             = f.label :password, 'Password', class: 'control-label col-sm-3'
+-#             .col-sm-6
+-#               =f.password_field :password, class: 'form-control'
+-#             - unless @user.errors[:password].blank?
+-#               .col-sm-3
+-#                 .help-block= @user.errors[:password].first
+-#           .form-group{:class => !@user.errors[:full_name].blank? && 'has-error'}
+-#             = f.label :full_name, 'Full Name', class: 'control-label col-sm-3'
+-#             .col-sm-6
+-#               =f.text_field :full_name, class: 'form-control'
+-#             - unless @user.errors[:full_name].blank?
+-#               .col-sm-3
+-#                 .help-block= @user.errors[:full_name].first
+-#         %fieldset.actions.control-group.col-sm-offset-2
+-#           .controls
+-#             = f.submit 'Sign Up', class: 'btn btn-default'
+
+-# Static version:
+
+-# %section.register.container
+-#   .row
+-#     .col-sm-10.col-sm-offset-1
+-#       %form.form-horizontal
+-#         %header
+-#           %h1 Register
+-#         %fieldset
+-#           .form-group
+-#             %label.control-label.col-sm-2 Email Address
+-#             .col-sm-6
+-#               %input.form-control(type="email")
+-#           .form-group
+-#             %label.control-label.col-sm-2 Password
+-#             .col-sm-6
+-#               %input.form-control(type="password")
+-#           .form-group
+-#             %label.control-label.col-sm-2 Full Name
+-#             .col-sm-6
+-#               %input.form-control(type="text")
+-#         %fieldset.credit_card
+-#           .form-group
+-#             %label.control-label.col-sm-2 Credit Card Number
+-#             .col-sm-6
+-#               %input.form-control(type="text")
+-#           .form-group
+-#             %label.control-label.col-sm-2 Security Code
+-#             .col-sm-6
+-#               %input.form-control(type="text")
+-#           .form-group
+-#             %label.control-label.col-sm-2 Expiration
+-#             .col-sm-3
+-#               = select_month(Date.today, {add_month_numbers: true},  class: 'form-control')
+-#             .col-sm-2
+-#               = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, class: 'form-control')
+-#         %fieldset.actions.control-group.col-sm-offset-2
+-#           .controls
+-#             %input(type="submit" value="Sign Up" class="btn btn-default")
+
