@@ -7,7 +7,7 @@
       %li= link_to "My Queue"
       %li= link_to "People"
     = form_tag(search_videos_path, method: 'get', class: 'col-md-5 navbar-form') do
-      = text_field_tag(:q, nil, class: 'form-control', placeholder: 'Search for videos here')
+      = text_field_tag(:search_term, nil, class: 'form-control', placeholder: 'Search for videos here')
       = submit_tag('Search', class: 'btn btn-default', name: nil)
     #user_links.pull-right
       %ul
