@@ -53,7 +53,7 @@ GEM
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
     erubis (2.7.0)
-    eventmachine (1.0.0)
+    eventmachine (1.2.5)
     execjs (2.0.2)
     fabrication (2.16.2)
     faker (1.8.4)
