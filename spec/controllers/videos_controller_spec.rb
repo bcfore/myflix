@@ -9,21 +9,23 @@ describe VideosController do
     end
 
     context "with authenticated user" do
+      let(:video) { Fabricate(:video) }
       before do
         session[:user_id] = Fabricate(:user).id
+        get :show, { id: video.id.to_s }
       end
 
       it "sets @video" do
-        video = Fabricate(:video)
         # Note, you don't need the brackets around 'id: ...' here:
-        get :show, { id: video.id.to_s }
         expect(assigns(:video)).to eq(video)
+      end
+
+      it "sets a new @review" do
+        expect(assigns(:review)).to be_a_new(Review)
       end
 
       # He argues that this test isn't really needed, since it's built-in Rails:
       it "renders the show template" do
-        video = Fabricate(:video)
-        get :show, { id: video.id.to_s }
         expect(response).to render_template :show
       end
     end

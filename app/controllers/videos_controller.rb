@@ -16,8 +16,8 @@ class VideosController < ApplicationController
   end
 
   def show
-    @crap = 'cool'
     @video = Video.find params[:id]
+    @review = Review.new
   end
 
   def search

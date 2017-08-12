@@ -1,6 +1,8 @@
 class Video < ActiveRecord::Base
   belongs_to :category
   has_many :reviews, -> { order(created_at: :desc) }
+  has_many :queued_user_videos
+  has_many :queuers, through: :queued_user_videos, source: :user
 
   validates_presence_of :title, :description
 
