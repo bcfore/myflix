@@ -1,10 +1,5 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # To reset the sequences:
 # ActiveRecord::Base.connection.tables.each do |t|
@@ -14,9 +9,11 @@
 User.all.delete_all
 Category.all.delete_all
 Video.all.delete_all
+QueuedUserVideo.all.delete_all
 Review.all.delete_all
 
-User.create(email: 'bcf@bcf', password: 'bcf', full_name: 'bcf')
+user1 = User.create(email: 'bcf@bcf', password: 'bcf', full_name: 'bcf')
+user2 = User.create(email: 'qwer@qwer', password: 'qwer', full_name: 'Ty Qwer')
 
 cat1 = Fabricate(:category, name: 'Comedy')
 cat2 = Fabricate(:category, name: 'Drama')
@@ -43,101 +40,11 @@ Fabricate.times(10, :video,
 first_video = cat1.recent_videos.first
 first_video.update title: 'The Simpsons'
 
-Fabricate.times(10, :review, video: first_video, user: User.first)
+Fabricate.times(2, :review, video: first_video, user: user1)
+Fabricate.times(3, :review, video: first_video, user: user2)
+Fabricate.times(5, :review, video: first_video, user: user1)
 
-# Video.create(title: "The Simpsons",
-#              description: "A cartoon.",
-#              category: Category.find_by(name: "Comedies"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "Futurama",
-#              description: "A cartoon.",
-#              category: Category.find_by(name: "Comedies"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "Family Guy",
-#              description: "A cartoon.",
-#              category: Category.find_by(name: "Comedies"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "Cheers",
-#              description: "A sitcom.",
-#              category: Category.find_by(name: "Comedies"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "Friends",
-#              description: "A sitcom.",
-#              category: Category.find_by(name: "Comedies"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "Seinfeld",
-#              description: "A sitcom.",
-#              category: Category.find_by(name: "Comedies"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "Modern Family",
-#              description: "A sitcom.",
-#              category: Category.find_by(name: "Comedies"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "Survivor",
-#              description: "Not a cartoon.",
-#              category: Category.find_by(name: "Reality TV"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "Masterchef",
-#              description: "A competitive cooking show.",
-#              category: Category.find_by(name: "Reality TV"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "The Great British Bake-off",
-#              description: "A competitive baking show.",
-#              category: Category.find_by(name: "Reality TV"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "The Great British Sewing Bee",
-#              description: "A competitive sewing show.",
-#              category: Category.find_by(name: "Reality TV"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "The Bachelorette",
-#              description: "A competitive dating show.",
-#              category: Category.find_by(name: "Reality TV"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "Edwardian Farm",
-#              description: "A historical show.",
-#              category: Category.find_by(name: "Reality TV"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "Big Brother",
-#              description: "A boring show.",
-#              category: Category.find_by(name: "Reality TV"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "This Is Us",
-#              description: "A sappy family drama.",
-#              category: Category.find_by(name: "Dramas"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
-
-# Video.create(title: "Sherlock",
-#              description: "A crime-solving show that used to be good.",
-#              category: Category.find_by(name: "Dramas"),
-#              small_cover_url: url1,
-#              large_cover_url: url2)
+QueuedUserVideo.insert!(user1, first_video)
+QueuedUserVideo.insert!(user1, cat2.recent_videos.first)
+QueuedUserVideo.insert!(user1, cat3.recent_videos.first)
 

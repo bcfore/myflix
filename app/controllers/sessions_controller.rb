@@ -24,4 +24,9 @@ class SessionsController < ApplicationController
     flash[:info] = "You are signed out."
     redirect_to root_path
   end
+
+  def force_signout
+    session[:user_id] = nil
+    redirect_to root_path
+  end
 end
