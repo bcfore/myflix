@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
     !!current_user
   end
 
+  def log_in(user)
+    session[:user_id] = user.id
+  end
+
   def require_user
     access_denied unless logged_in?
   end
