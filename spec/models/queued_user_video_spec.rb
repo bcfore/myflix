@@ -4,37 +4,39 @@ describe QueuedUserVideo do
   it { should belong_to(:user) }
   it { should belong_to(:video) }
 
-  let (:user) { Fabricate(:user) }
-  let (:cat) { Fabricate(:category, name: 'Comedy') }
-  let (:video) { Fabricate(:video, title: 'Test title', category: cat)}
-  let (:queue_item) { Fabricate(:queued_user_video, user: user, video: video) }
+  context "accessor methods" do
+    let (:user) { Fabricate(:user) }
+    let (:cat) { Fabricate(:category, name: 'Comedy') }
+    let (:video) { Fabricate(:video, title: 'Test title', category: cat)}
+    let (:queue_item) { Fabricate(:queued_user_video, user: user, video: video) }
 
-  describe '#video_title' do
-    it "returns the video's title" do
-      expect(queue_item.video_title).to eq('Test title')
-    end
-  end
-
-  describe '#rating' do
-    it "returns nil if the user has not reviewed the video" do
-      expect(queue_item.rating).to be_nil
+    describe '#video_title' do
+      it "returns the video's title" do
+        expect(queue_item.video_title).to eq('Test title')
+      end
     end
 
-    it "returns the user's rating for the video, if the user has reviewed the video" do
-      Fabricate(:review, user: user, video: video, rating: 4)
-      expect(queue_item.rating).to eq(4)
-    end
-  end
+    describe '#rating' do
+      it "returns nil if the user has not reviewed the video" do
+        expect(queue_item.rating).to be_nil
+      end
 
-  describe '#category' do
-    it "returns the video's category (object)" do
-      expect(queue_item.category).to eq(cat)
+      it "returns the user's rating for the video, if the user has reviewed the video" do
+        Fabricate(:review, user: user, video: video, rating: 4)
+        expect(queue_item.rating).to eq(4)
+      end
     end
-  end
 
-  describe '#category_name' do
-    it "returns the video's category's name" do
-      expect(queue_item.category_name).to eq('Comedy')
+    describe '#category' do
+      it "returns the video's category (object)" do
+        expect(queue_item.category).to eq(cat)
+      end
+    end
+
+    describe '#category_name' do
+      it "returns the video's category's name" do
+        expect(queue_item.category_name).to eq('Comedy')
+      end
     end
   end
 
