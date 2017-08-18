@@ -4,35 +4,38 @@
       %article
         %header
           %h2 My Queue
-        %table.table
-          %thead
-            %tr
-              %th(width="10%") List Order
-              %th(width="30%") Video Title
-              %th(width="10%") Play
-              %th(width="20%") Rating
-              %th(width="15%") Genre
-              %th(width="15%") Remove
-          %tbody
-            - @queue.each do |row|
+        = form_tag(update_queue_path) do
+          %table.table
+            %thead
               %tr
-                %td
-                  %input.form-control(type="text" value="#{row.place_in_queue}")
-                %td
-                  = link_to row.video_title, row.video
-                %td
-                  = button_to "Play", nil, class: "btn btn-default"
-                %td
-                  #{row.rating}
-                  -# %select.form-group(name="")
-                  -#   %option(value="5") 5 Stars
-                  -#   %option(value="4") 4 Stars
-                  -#   %option(value="3") 3 Stars
-                  -#   %option(value="2") 2 Stars
-                  -#   %option(value="1") 1 Star
-                %td
-                  = link_to row.category_name, row.category
-                %td
-                  = link_to my_queue_video_path(row.video), method: :delete do
-                    %i.glyphicon.glyphicon-remove
-        = button_to "Update Instant Queue", nil, class: "btn btn-default"
+                %th(width="10%") List Order
+                %th(width="30%") Video Title
+                %th(width="10%") Play
+                %th(width="20%") Rating
+                %th(width="15%") Genre
+                %th(width="15%") Remove
+            %tbody
+              - @queue.each do |row|
+                %tr
+                  %td
+                    -# = hidden_field_tag "new_positions[][id]", row.id
+                    -# = text_field_tag "new_positions[][position]", "#{row.place_in_queue}", class: 'form-control'
+                    = text_field_tag "new_positions[#{row.id}]", "#{row.place_in_queue}", class: 'form-control'
+                  %td
+                    = link_to row.video_title, row.video
+                  %td
+                    = button_to "Play", nil, class: "btn btn-default"
+                  %td
+                    #{row.rating}
+                    -# %select.form-group(name="")
+                    -#   %option(value="5") 5 Stars
+                    -#   %option(value="4") 4 Stars
+                    -#   %option(value="3") 3 Stars
+                    -#   %option(value="2") 2 Stars
+                    -#   %option(value="1") 1 Star
+                  %td
+                    = link_to row.category_name, row.category
+                  %td
+                    = link_to my_queue_video_path(row.video), method: :delete do
+                      %i.glyphicon.glyphicon-remove
+          = submit_tag "Update Instant Queue", class: 'btn btn-default'

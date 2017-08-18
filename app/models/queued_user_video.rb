@@ -21,7 +21,6 @@ class QueuedUserVideo < ActiveRecord::Base
     shift_tail_up!(position, queue) if position <= count
 
     self.create(user: user, video: video, place_in_queue: position)
-    nil
   end
 
   def self.remove!(user, video)
@@ -36,7 +35,48 @@ class QueuedUserVideo < ActiveRecord::Base
     nil
   end
 
+  def self.update_positions!(user, new_positions)
+    queue = self.where user: user
+
+    return true unless queue.count > 0
+    return false unless valid_positions?(new_positions)
+
+    cleaned_positions = validate_positions(new_positions)
+
+    queue.each do |item|
+      new_position = cleaned_positions[item.id]
+
+      if new_position != item.place_in_queue
+        item.update(place_in_queue: new_position)
+      end
+    end
+
+    true
+  end
+
   private
+
+  def self.valid_integer?(str)
+    str == str.to_i.to_s
+  end
+
+  def self.valid_positions?(new_positions)
+    !new_positions.nil? &&
+      new_positions.values.all? { |i| valid_integer? i } &&
+      new_positions.values.size == new_positions.values.uniq.size
+  end
+
+  def self.validate_positions(new_positions)
+    id_posns_arr = new_positions.sort_by { |_, new_posn| new_posn.to_i }
+
+    new_id_posns_arr = id_posns_arr.map.with_index do |id_posn, i|
+      id = id_posn.first.to_i
+      new_posn = i + 1
+      [id, new_posn]
+    end
+
+    new_id_posns_arr.to_h
+  end
 
   def self.validate_position(position, count)
     if position.nil? || position > count
