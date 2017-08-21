@@ -12,6 +12,8 @@ class QueuedUserVideosController < ApplicationController
 
   def update_queue
     # See your notes for how to do this via a transaction.
+    QueuedUserVideo.update_ratings!(current_user, params[:ratings])
+
     if !QueuedUserVideo.update_positions!(current_user, params[:new_positions])
       flash[:danger] = "The new list orders must be valid integers."
     end

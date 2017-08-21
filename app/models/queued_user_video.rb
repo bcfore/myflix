@@ -6,9 +6,13 @@ class QueuedUserVideo < ActiveRecord::Base
   delegate :category, to: :video
   delegate :name, prefix: :category, to: :category
 
+  def review
+    Review.find_by user: user, video: video
+  end
+
   def rating
-    review = Review.find_by user: user, video: video
-    review.rating if review
+    the_review = review
+    the_review.rating if the_review
   end
 
   def self.insert!(user, video, position = nil)
@@ -52,6 +56,26 @@ class QueuedUserVideo < ActiveRecord::Base
     end
 
     true
+  end
+
+  def self.update_ratings!(user, new_ratings)
+    return if new_ratings.nil?
+
+    queue = self.where user: user
+    return true unless queue.count > 0
+
+    queue.each do |item|
+      new_rating_obj = new_ratings.find { |obj| obj[:id].to_i == item.id }
+      new_rating = new_rating_obj[:rating].to_i
+
+      next if !new_rating
+
+      if item.rating
+        item.review.update(rating: new_rating) if item.rating != new_rating
+      else
+        Review.create(user: user, video: item.video, rating: new_rating, body: '')
+      end
+    end
   end
 
   private

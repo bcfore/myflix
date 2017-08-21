@@ -60,9 +60,9 @@ describe QueuedUserVideosController do
     end
   end
 
-  describe 'PUT update' do
+  describe 'POST update_queue' do
     it "redirects to the root path for unauthenticated users" do
-      put :update
+      post :update_queue
       expect(response).to redirect_to root_path
     end
 
@@ -75,7 +75,7 @@ describe QueuedUserVideosController do
 
       context "with no videos in queue" do
         before do
-          put :update
+          post :update_queue
         end
 
         it "redirects to 'my_queue'" do
@@ -88,7 +88,7 @@ describe QueuedUserVideosController do
         let(:new_positions) { { item1.id.to_s => new_position.to_s } }
 
         before do
-          put :update, new_positions: new_positions
+          post :update_queue, new_positions: new_positions
         end
 
         context "with new_position = 1" do
@@ -143,7 +143,7 @@ describe QueuedUserVideosController do
         }
 
         before do
-          put :update, new_positions: new_positions_param
+          post :update_queue, new_positions: new_positions_param
         end
 
         context "with new_positions = [1, 2]" do
@@ -192,6 +192,48 @@ describe QueuedUserVideosController do
 
           it "creates a flash-danger message" do
             expect(flash[:danger]).to be
+          end
+        end
+      end
+
+      context "with one rated video, one non-rated video" do
+        let(:video1) { Fabricate(:video) }
+        let(:item1) { QueuedUserVideo.insert! user, video1 }
+        let(:item2) { QueuedUserVideo.insert! user, Fabricate(:video) }
+        let(:ratings_params) { [
+          { "id" => item1.id.to_s, "rating" => new_ratings[0].to_s },
+          { "id" => item2.id.to_s, "rating" => new_ratings[1].to_s }
+        ] }
+
+        before do
+          Fabricate(:review, user: user, video: video1, rating: 4)
+          post :update_queue, ratings: ratings_params
+        end
+
+        context "with new_ratings = [4, '']" do
+          let(:new_ratings) { [4, ''] }
+
+          it "leaves the ratings unaffected" do
+            expect(user.queued_user_videos.first.rating).to eq(4)
+            expect(user.queued_user_videos.last.rating).to be_nil
+          end
+        end
+
+        context "with new_ratings = [5, '']" do
+          let(:new_ratings) { [5, ''] }
+
+          it "sets the new rating for the existing review" do
+            expect(user.queued_user_videos.first.rating).to eq(5)
+            expect(user.queued_user_videos.last.rating).to be_nil
+          end
+        end
+
+        context "with new_ratings = [5, 2]" do
+          let(:new_ratings) { [5, 2] }
+
+          it "sets the new ratings (creates a new review for video2)" do
+            expect(user.queued_user_videos.first.rating).to eq(5)
+            expect(user.queued_user_videos.last.rating).to eq(2)
           end
         end
       end

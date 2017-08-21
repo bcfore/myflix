@@ -26,13 +26,8 @@
                   %td
                     = button_to "Play", nil, class: "btn btn-default"
                   %td
-                    #{row.rating}
-                    -# %select.form-group(name="")
-                    -#   %option(value="5") 5 Stars
-                    -#   %option(value="4") 4 Stars
-                    -#   %option(value="3") 3 Stars
-                    -#   %option(value="2") 2 Stars
-                    -#   %option(value="1") 1 Star
+                    = hidden_field_tag "ratings[][id]", row.id
+                    = select_tag("ratings[][rating]", options_for_select(5.downto(1).map { |n| ["#{n} Stars", n] }, row.rating), { class: 'form-group', include_blank: !row.rating })
                   %td
                     = link_to row.category_name, row.category
                   %td
