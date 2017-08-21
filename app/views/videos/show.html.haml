@@ -10,8 +10,9 @@
         %p= @video.description
         .actions
           %a.btn.btn-primary(href="") Watch Now
-          = form_tag my_queue_video_path(@video) do
-            = submit_tag '+ My Queue', class: 'btn btn-default'
+          - if !queued?(@video, current_user)
+            = form_tag my_queue_video_path(@video) do
+              = submit_tag '+ My Queue', class: 'btn btn-default'
 
 %section.reviews.container
   .row
@@ -22,7 +23,7 @@
             = f.label :rating, "Rate this video"
             .row
               .col-sm-3
-                = f.select :rating, options_for_select(5.downto(1).map { |i| [pluralize(i, "Star"), i] }), {}, class: 'form-control'
+                = f.select :rating, options_for_video_reviews, {}, class: 'form-control'
           .form-group
             = f.label :body, "Write Review"
             .row

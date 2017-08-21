@@ -66,14 +66,15 @@ class QueuedUserVideo < ActiveRecord::Base
 
     queue.each do |item|
       new_rating_obj = new_ratings.find { |obj| obj[:id].to_i == item.id }
-      new_rating = new_rating_obj[:rating].to_i
+      next if !new_rating_obj || new_rating_obj[:rating] == ''
 
-      next if !new_rating
+      new_rating = new_rating_obj[:rating].to_i
 
       if item.rating
         item.review.update(rating: new_rating) if item.rating != new_rating
       else
-        Review.create(user: user, video: item.video, rating: new_rating, body: '')
+        new_review = Review.new(user: user, video: item.video, rating: new_rating)
+        new_review.save(validate: false)
       end
     end
   end

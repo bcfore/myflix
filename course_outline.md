@@ -65,3 +65,29 @@
 17	Code Review
 18	Feeling overwhelmed?
 19	Share your experience for this week
+
+# Week 3
+
+1	Lesson: Growing Complexity Guided by Tests
+2	Lesson: Interactive Debugging for Solution Discovery
+3	Lesson: Respond to Feature Changes
+4	Lesson: Transactions
+5	Assignment: User can reorder videos in the queue
+6	Lesson: Structural Refactor
+7	Lesson: Skinny Controller, Fat Model
+8	Lesson: Fat Controllers in the Wild
+9	Assignment: Push down complexity
+10	Assignment: User can change video ratings in the queue
+11	Lesson: Macros
+12	Lesson: Shared Examples
+13	Assignment: Use macros and shared examples in tests
+14	Lesson: Feature specs
+15	Lesson: Capybara
+16	Lesson: First feature spec
+17	Lesson: Another example of a feature spec
+18	Reference: Capybara cheetsheet
+19	Assignment: Implement the first feature spec
+20	Assignment: A more complicated feature spec
+21	Code Review
+22	Share your experience for this week
+

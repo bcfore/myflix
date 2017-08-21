@@ -27,7 +27,7 @@
                     = button_to "Play", nil, class: "btn btn-default"
                   %td
                     = hidden_field_tag "ratings[][id]", row.id
-                    = select_tag("ratings[][rating]", options_for_select(5.downto(1).map { |n| ["#{n} Stars", n] }, row.rating), { class: 'form-group', include_blank: !row.rating })
+                    = select_tag("ratings[][rating]", options_for_video_reviews(row.rating), { class: 'form-group', include_blank: !row.rating })
                   %td
                     = link_to row.category_name, row.category
                   %td
